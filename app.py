@@ -5,7 +5,6 @@ from Disease_Prediction import load_disease_data, preprocess_data, train_models
 
 st.set_page_config("AI Disease Prediction", "🩺", layout="wide")
 
-# ================= CSS =================
 st.markdown("""
 <style>
 body { background-color:#F4F6F8; }
@@ -21,17 +20,14 @@ st.markdown('<div class="title">🧠 AI Disease Prediction System</div>', unsafe
 st.markdown("Modern Machine Learning Medical Dashboard")
 st.markdown("---")
 
-# ================= SIDEBAR =================
 disease_type = st.sidebar.selectbox(
     "Select Disease",
     ["breast_cancer", "diabetes", "heart_disease"]
 )
 
-# ================= LOAD =================
 df, disease_name, target_col = load_disease_data(disease_type)
 X, y, scaler, features = preprocess_data(df, target_col)
 
-# ================= METRICS =================
 c1, c2, c3 = st.columns(3)
 c1.metric("Patients", df.shape[0])
 c2.metric("Features", len(features))
@@ -39,11 +35,9 @@ c3.metric("Disease %", f"{y.mean()*100:.1f}%")
 
 st.dataframe(df.head(), use_container_width=True)
 
-# ================= SESSION =================
 if "trained" not in st.session_state:
     st.session_state.trained = False
 
-# ================= TRAIN =================
 if st.button("🚀 Train Models"):
     with st.spinner("Training..."):
         results = train_models(X, y)
@@ -66,7 +60,6 @@ if st.button("🚀 Train Models"):
         </div><br>
         """, unsafe_allow_html=True)
 
-# ================= PREDICTION =================
 st.markdown("## 🧪 Patient Diagnosis")
 
 inputs = {}
@@ -91,4 +84,5 @@ if st.button("🔍 Predict"):
     if pred == 1:
         st.error(f"⚠️ Disease Detected ({prob:.2%})")
     else:
+
         st.success(f"✅ No Disease ({1-prob:.2%})")
