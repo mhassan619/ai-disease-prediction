@@ -13,7 +13,6 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-# ================= LOAD DATA =================
 def load_disease_data(disease_type):
     if disease_type == "breast_cancer":
         from sklearn.datasets import load_breast_cancer
@@ -38,7 +37,6 @@ def load_disease_data(disease_type):
         return df, "Heart Disease", "target"
 
 
-# ================= PREPROCESS =================
 def preprocess_data(df, target_col):
     X = df.drop(columns=[target_col])
     y = df[target_col]
@@ -60,8 +58,6 @@ def preprocess_data(df, target_col):
 
     return X, y, scaler, X.columns.tolist()
 
-
-# ================= TRAIN MODELS =================
 def train_models(X, y):
     models = {
         "Logistic Regression": LogisticRegression(max_iter=1000),
@@ -86,5 +82,6 @@ def train_models(X, y):
             "f1": f1_score(yte, pred),
             "cv": cross_val_score(model, X, y, cv=5, scoring="f1").mean()
         }
+
 
     return results
